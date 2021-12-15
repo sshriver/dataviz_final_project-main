@@ -26,8 +26,6 @@ In this project, I explored the relationship between danceability and loudness t
 
 ![](./figures/2.png)
 
-(you can also place your figures in the `figures/` folder and use the `![](path_to_picture)` option to add the pictures here)
-
 
 ## Project 03
 
