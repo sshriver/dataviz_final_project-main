@@ -1,0 +1,57 @@
+---
+title: "Data Visualization - Mini-Project 1"
+author: "Scott Shriver `sshriver2380@floridapoly.edu`"
+output: html_notebook
+---
+
+We will start by loading in the Minnesota I-94 data, then checking the first few rows and getting an overall data summary
+
+```{r}
+library(tidyverse)
+minnesota <- read.csv("https://raw.githubusercontent.com/reisanar/datasets/master/trafficMN.csv")
+head(minnesota)
+```
+
+```{r}
+summary(minnesota)
+```
+
+## Weather and Traffic Volume
+
+```{r}
+ggplot(data = minnesota) +
+  geom_col(aes(x = weather_main, y = traffic_volume)) +
+  labs(x = "Main weather event",
+       y = "Volume of traffic")
+```
+
+## Cloud Coverage and Traffic Volume
+
+Want to see if cloud coverage has any impact of volume of traffic.
+Create a smooth line to try and help visualize relation.
+
+```{r}
+ggplot(data = minnesota,
+       mapping = aes(x = clouds_all,
+                     y = traffic_volume)) +
+  geom_line() +
+  geom_smooth() +
+  labs(x = "Percentage cloud coverage",
+       y = "Volume of traffic")
+```
+
+Overall, volume seems fairly consistent.
+
+## Amount of Snow and Traffic Volume
+
+Want to see relation between amount of snow and traffic volume.
+Number of data points collected during hours with no snow means that the "0.0" mark on the x-axis is just a solid vertical line, am limiting the x-axis to focus on hours which had measurable snow.
+
+```{r}
+ggplot(data = minnesota) +
+  geom_point(aes(x = snow_1h, y = traffic_volume)) +
+  coord_cartesian(xlim = c(0.2, 0.6)) +
+  labs(x = "Amount of snow in an hour (mm)",
+       y = "Volume of traffic")
+```
+

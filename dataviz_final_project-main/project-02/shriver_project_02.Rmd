@@ -1,0 +1,55 @@
+---
+title: "Data Visualization - Mini-Project 2"
+author: "Scott Shriver `sshriver2380@floridapoly.edu`"
+output: html_notebook
+---
+
+## Libraries
+
+```{r}
+library(tidyverse)
+library(gapminder)
+library(plotly)
+library(htmlwidgets)
+```
+
+## Downloading data
+
+```{r}
+billboard <- read.csv("https://raw.githubusercontent.com/reisanar/datasets/master/all_billboard_summer_hits.csv")
+head(billboard)
+```
+
+## Interactive plot: Danceability vs. Energy
+
+```{r}
+gapminder_billboard <- filter(billboard, 
+                         mode == "major")
+billboard_plot <- ggplot(
+  data = gapminder_billboard,
+  mapping = aes(x = danceability, y = energy, 
+                color = time_signature)) +
+  geom_point() +
+  scale_x_log10() +
+  theme_minimal()
+
+ggplotly(billboard_plot)
+```
+
+## Model: Loudness vs. Energy
+
+```{r}
+model_billboard <- lm(loudness ~ energy, data = billboard)
+summary(model_billboard)
+```
+
+```{r}
+ggplot(billboard, aes(x = energy, y = loudness)) +
+  geom_point() +
+  geom_smooth(method = "lm", 
+              formula = "y ~ x") +
+  annotate(geom = "text",
+           x = 0.75, y = -19,
+           label = "An increase in energy of music is \n associated with an increase in loudness")
+```
+
